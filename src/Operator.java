@@ -5,17 +5,20 @@ public class Operator extends Expression {
 	Operator(String val) {
 		this.name = val;
 
-		if (val == "AND") {
+		if (this.name.equals("AND")) {
 			this.type = operators.AND;
-		} else if (val == "NOT") {
-			this.type = operators.NOT;
-		} else if (val == "OR") {
+
+		} else if (this.name.equals("OR")) {
 			this.type = operators.OR;
+
+		} else if (this.name.equals("NOT")) {
+			this.type = operators.NOT;
 		}
+
 	}
 
 
-	enum operators {AND, NOT, OR}
+	public enum operators {AND, NOT, OR}
 
 	;
 }

@@ -6,14 +6,15 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		String inputString = "NOT(A OR A OR (B AND B))";
+		String inputString = "(A AND B) OR C";
 
 		printArr(RPNParser.mParseToStringArr(inputString));
 
-		RPNBundle expArr = RPNParser.mParsetoBundle(inputString);
+		RPNBundle bundle = RPNParser.mParsetoBundle(inputString);
 
-		expArr.printBundle();
+		bundle.printBundle();
 
+		TTGenerator.genTruthTable(bundle);
 
 	}
 

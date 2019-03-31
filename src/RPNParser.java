@@ -27,7 +27,7 @@ public final class RPNParser {
 	 */
 	static RPNBundle mParsetoBundle(String inp) {
 		String[] parsedStringArray = mParseToStringArr(inp);
-		Expression[] out = parseStringArrayToExpressionArray(parsedStringArray);
+		Expression[] out = parseStringArray(parsedStringArray);
 		Input[] inputs = extractDistinctInputs(out);
 
 		return new RPNBundle(out, inputs);
@@ -36,10 +36,10 @@ public final class RPNParser {
 	static String[] mParseToStringArr(String inp) {
 		String[] split = RPNParser.formatString(inp);
 
-		return RPNParser.mInfixToRPNStringArray(split);
+		return RPNParser.mInfixToRPN(split);
 	}
 
-	static private Expression[] parseStringArrayToExpressionArray(String[] inp) {
+	static private Expression[] parseStringArray(String[] inp) {
 		Expression[] out = new Expression[inp.length];
 		ArrayList<Input> inputs = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public final class RPNParser {
 
 			// Input
 			if (current.length() == 1) {
-				Input existingInp = searchArrayListForInputWithName(inputs, current);
+				Input existingInp = searchByInputName(inputs, current);
 
 				if (existingInp != null) {
 					out[i] = existingInp;
@@ -63,7 +63,9 @@ public final class RPNParser {
 
 			// Operator
 			if (current.length() > 1) {
-				out[i] = new Operator(current);
+				Operator newOp = new Operator(current);
+
+				out[i] = newOp;
 			}
 		}
 
@@ -113,7 +115,7 @@ public final class RPNParser {
 		return out;
 	}
 
-	static private String[] mInfixToRPNStringArray(String[] inp) {
+	static private String[] mInfixToRPN(String[] inp) {
 		RPNStack operatorRPNStack = new RPNStack();
 		RPNStack properRPNStack = new RPNStack();
 
@@ -154,7 +156,7 @@ public final class RPNParser {
 		return properRPNStack.toStringArray();
 	}
 
-	static private Input searchArrayListForInputWithName(ArrayList<Input> arr, String name) {
+	static private Input searchByInputName(ArrayList<Input> arr, String name) {
 		for (int i = 0; i < arr.size(); i++) {
 			if (getASCIIValue(arr.get(i).name.charAt(0)) == getASCIIValue(name.charAt(0))) {
 				return arr.get(i);
